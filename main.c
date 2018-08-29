@@ -15,14 +15,18 @@ int main(int argc, char** argv)    {
     MPI_Status mpi_status;
 
     char msg[100];
-
+    int tag_global = 1;
+    
     if(comm_rank == 0){
-        printf("Sou a master!\n");
-        // for(int i = 0; i < comm_size; i++){
-        //     MPI_Recv(msg, 100, MPI_CHAR, i, 0, MPI_COMM_WORLD, &mpi_status);
-        // }
+        printf("Who's staying alive now??\n");
+        printf("Master is staying alive!\n");
+        for(int i = 1; i < comm_size; i++){
+            MPI_Recv(msg, 100, MPI_CHAR, i, tag_global, MPI_COMM_WORLD, &mpi_status);
+            printf("%s", msg);
+        }
     }else { // is slave
-        printf("Sou o processo %d!\n", comm_rank);
+        sprintf(msg, "Slave %d is staying alive AH-AH-AH!!!\n", comm_rank);
+        MPI_Send(msg, strlen(msg)+1, MPI_CHAR, 0, tag_global, MPI_COMM_WORLD);
     }
 
     MPI_Finalize();
