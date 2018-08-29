@@ -21,7 +21,8 @@ int main(int argc, char** argv)    {
         printf("Who's staying alive now??\n");
         printf("Master is staying alive!\n");
         for(int i = 1; i < comm_size; i++){
-            MPI_Recv(msg, 100, MPI_CHAR, i, tag_global, MPI_COMM_WORLD, &mpi_status);
+            // MPI_Recv(msg, 100, MPI_CHAR, i, tag_global, MPI_COMM_WORLD, &mpi_status);
+            MPI_Recv(msg, 100, MPI_CHAR, MPI_ANY_SOURCE, tag_global, MPI_COMM_WORLD, &mpi_status);
             printf("%s", msg);
         }
     }else { // is slave
